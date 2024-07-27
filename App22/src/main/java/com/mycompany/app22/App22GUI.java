@@ -1,9 +1,13 @@
 package com.mycompany.app22;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class App22GUI {
     private JFrame frame;
@@ -16,7 +20,7 @@ public class App22GUI {
         frame = new JFrame("Empleado");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
-        frame.setLayout(new GridLayout(5, 2));
+        frame.setLayout(new GridLayout(6, 2));
 
         frame.add(new JLabel("Nombre del empleado:"));
         nombreField = new JTextField();
@@ -33,26 +37,27 @@ public class App22GUI {
         JButton calcularButton = new JButton("Calcular Salario");
         frame.add(calcularButton);
 
-        resultadoLabel = new JLabel("Resultado:");
+        resultadoLabel = new JLabel("Salario: ");
         frame.add(resultadoLabel);
 
         calcularButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nombre = nombreField.getText();
-                double salarioPorHora = Double.parseDouble(salarioPorHoraField.getText());
-                int horasTrabajadas = Integer.parseInt(horasTrabajadasField.getText());
-
-                Empleado empleado = new Empleado(nombre, salarioPorHora, horasTrabajadas);
-                double salarioMensual = empleado.calcularSalarioMensual();
-                if (salarioMensual > 450000) {
-                    resultadoLabel.setText("Nombre: " + nombre + ", Salario Mensual: $" + salarioMensual);
-                } else {
-                    resultadoLabel.setText("Nombre: " + nombre);
+                try {
+                    double salarioPorHora = Double.parseDouble(salarioPorHoraField.getText());
+                    double horasTrabajadas = Double.parseDouble(horasTrabajadasField.getText());
+                    double salario = salarioPorHora * horasTrabajadas;
+                    resultadoLabel.setText("Salario: " + salario + "\n" + "Nombre: " + nombreField.getText());
+                } catch (NumberFormatException ex) {
+                    resultadoLabel.setText("Por favor, ingrese valores numéricos válidos.");
                 }
             }
         });
 
         frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new App22GUI();
     }
 }
